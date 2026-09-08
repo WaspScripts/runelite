@@ -39,6 +39,8 @@ import org.apache.commons.cli.*;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.zip.ZipEntry;
@@ -72,15 +74,8 @@ public class SimbaItemSpritesDumper
 		final String cacheName = cmd.getOptionValue("cachename");
 
 		final String cacheDirectory = mainDir + File.separator + cacheName + File.separator + "cache";
-		final String xteaJSONPath = mainDir + File.separator + cacheName + File.separator + cacheName.replace("cache-", "keys-") + ".json";
 
 		final String outputDirectory = cmd.getOptionValue("outputdir") + File.separator + cacheName;
-
-		XteaKeyManager xteaKeyManager = new XteaKeyManager();
-		try (FileInputStream fin = new FileInputStream(xteaJSONPath))
-		{
-			xteaKeyManager.loadKeys(fin);
-		}
 
 		File outDir = new File(outputDirectory);
 		if (!outDir.exists() && !outDir.mkdirs()) throw new RuntimeException("Failed to create output path: " + outDir.getPath());
@@ -166,7 +161,7 @@ public class SimbaItemSpritesDumper
 
 		for (ItemDefinition itemDef : itemManager.getItems())
 		{
-			if (itemDef.id != 10008) continue;
+			//if (itemDef.id != 10008) continue;
 			if ((itemDef.name == null) || (itemDef.name.isEmpty())) {
 				continue;
 			}
